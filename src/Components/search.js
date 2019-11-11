@@ -25,7 +25,7 @@ const Search = ({setData,data,word, setWord}) => {
                 </Col>
 
                 <Form.Label column sm="1">
-                <MDBIcon far icon="question-circle"  onClick={() => setS(!s)} className=" map fa fa-camera-retro fa-2x" />
+                
                 </Form.Label>
         </Form.Group>
         {s === true && <Question infotext={a}/>}
@@ -33,5 +33,5 @@ const Search = ({setData,data,word, setWord}) => {
         
     )
 }
-
+//<MDBIcon far icon="question-circle"  onClick={() => setS(!s)} className=" map fa fa-camera-retro fa-2x" />
 export default Search
