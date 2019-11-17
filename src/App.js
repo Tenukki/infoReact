@@ -100,24 +100,46 @@ function App() {
       <Info  word={word} title={data.title} user={user} category={data.category} text={data.text} id={data.id} setData={setData} />
     </div>
   )
-
+  
   const handleClose = () => setShow(!show);
   const handleShow = () => setShow(!show);
 
-  const luettelo = list.map((o) => 
+   
+  if(user == null){
+    return (
+      <div className="keskita">
+        
+        {user === null ? 
+        <div>
+          <h1 className="keskita2">Welcome to the info bank 2019, please login</h1>
+      <Login setUsername={setUsername} handeLogin={handeLogin} setPassword={setPassword} click={click} setClick={setClick}/> 
+        </div>
+        : <Button onClick={logOut}>Log out username: {user.username}</Button>}
+      </div>
+    )
+  }else if(user.admin === false){
+    return (
       <div>
-        <Category data={o} setSort={setSort}/>
+        {show === true && <Map handleClose={handleClose} show={show}/>}
+        
+        {user === null ? 
+        <Login setUsername={setUsername} handeLogin={handeLogin} setPassword={setPassword} click={click} setClick={setClick}/> 
+        : <Button onClick={logOut}>Log out username: {user.username}</Button>}
+        
+        <div className="sticky">
+          <Search data={data} setData={setData} word={word} setWord={setWord}/>
+        </div>
+        
+        {allData}
+        <MDBIcon icon="map-marked-alt" onClick={handleShow} className="map fa fa-camera-retro fa-3x"/>
+        
       </div>
-  )
+    )
+  }    
 
-    /*
-    <div className="sticky">
-      {luettelo}
-      </div>
-      */
-    
   return (
     <div  >
+      
         {show === true && <Map handleClose={handleClose} show={show}/>}
         
         {user === null ? 
@@ -131,9 +153,23 @@ function App() {
         </div>
         
         {allData}
+        {console.log(user)}
         <MDBIcon icon="map-marked-alt" onClick={handleShow} className="map fa fa-camera-retro fa-3x"/>
     </div>
   );
 }
 
 export default App;
+
+/*
+const luettelo = list.map((o) => 
+<div>
+  <Category data={o} setSort={setSort}/>
+</div>
+)
+
+/*
+<div className="sticky">
+{luettelo}
+</div>
+*/
