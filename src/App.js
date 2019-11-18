@@ -24,12 +24,14 @@ function App() {
   const [show, setShow] = useState(false);
   const [word, setWord] = useState("")
 
+  /*
   useEffect( () => {
     async function fectData(){
       let data = await Connect.getAll()
       setData(data)
       console.log(user)
 
+      
       let a = []
       const set = new Set([])
       data.forEach(element => {
@@ -55,22 +57,29 @@ function App() {
       
     }
     fectData()
-  },[]);
 
+  },[]);
+*/
   
 
   useEffect(() => {
-    const loggedUserJSON = sessionStorage.getItem('LoggedInfoUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      Connect.setToken(user.token)
+    async function start(){
+      const loggedUserJSON = sessionStorage.getItem('LoggedInfoUser')
+      if (loggedUserJSON) {
+        const user = JSON.parse(loggedUserJSON)
+        setUser(user)
+        Connect.setToken(user.token)
+        let data = await Connect.getAll()
+        setData(data)
+      }
     }
+    start()
   }, [])
 
   const handeLogin = async (event) =>{
     event.preventDefault()
     try {
+
       const user = await LoginConnect.login({
         username, password
       })
@@ -84,6 +93,10 @@ function App() {
       setUsername('')
       setPassword('')
       console.log("Logged in")
+
+      let data = await Connect.getAll()
+      setData(data)
+      
     } catch (exception) {
       console.log(user)
     }
@@ -97,7 +110,7 @@ function App() {
 
   const allData = data.map((data) =>
     <div  key={data.id} className="shadowBackround2" >
-      <Info  word={word} title={data.title} user={user} category={data.category} text={data.text} id={data.id} setData={setData} />
+      <Info  word={word} title={data.title} user={user} category={data.category} text={data.text} id={data.id} setData={setData} link={data.link} pic={data.pic}/>
     </div>
   )
   
@@ -132,7 +145,7 @@ function App() {
         
         {allData}
         <MDBIcon icon="map-marked-alt" onClick={handleShow} className="map fa fa-camera-retro fa-3x"/>
-        
+        {console.log(user)}
       </div>
     )
   }    

@@ -7,6 +7,8 @@ const NewInfo = ({setData}) => {
     const [title, setTitle] = useState("");
     const [category, setCategory] = useState("");
     const [text, setText] = useState("");
+    const [link, setLink] = useState("");
+    const [pic, setPic] = useState(true);
 
     const postData = async (event) =>{
         event.preventDefault()
@@ -15,6 +17,8 @@ const NewInfo = ({setData}) => {
                 title,
                 category,
                 text,
+                link,
+                pic
             }
             const response = await Connect.create(data)
             const newData = await Connect.getAll()
@@ -41,18 +45,23 @@ const NewInfo = ({setData}) => {
                     <Form.Control onChange={event => setCategory(event.target.value)} type="text" placeholder="Enter the Category ex.Factory" />
                 </Form.Group>
                 
-                
                 <Form.Group >
                     <Form.Label>Write the info conserning the title</Form.Label>
                     <Form.Control onChange={event => setText(event.target.value)} as="textarea" rows="7" />
                 </Form.Group>
 
+                <Form.Group >
+                    <Form.Label>add a link to a picture (Leave empty not to add link)</Form.Label>
+                    <Form.Control onChange={event => setLink(event.target.value)} type="text" placeholder="Link here www.slush.org"/>
+                </Form.Group>
+
                 <Button variant="primary" type="submit">Submit</Button>
-                {console.log(category)}
-                {console.log(title)}
-                {console.log(text)}
-                
+                Show as photo
+                <input type="radio" onClick={() => setPic(false)} name="gender" value="male"></input>
+                add as a Link
+                <input type="radio" onClick={() => setPic(true)} name="gender" value="male"></input>
                 </Form>
+                
                 
             </div>
         
